@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - SMTP_HOST=mailpit
+      - SMTP_PORT=1025
+      - SMTP_FROM=hello@actionforhappiness.org
+      - NEXT_PUBLIC_BASE_URL=http://localhost:3000
+    depends_on:
+      - mailpit
+    networks:
+      - checkin-net
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"   # Web UI — view emails here
+      - "1025:1025"   # SMTP
+    networks:
+      - checkin-net
+
+networks:
+  checkin-net:
+    driver: bridge

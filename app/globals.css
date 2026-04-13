@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=Caveat:wght@400;600&display=swap');
+
+:root {
+  --ink:       #1C1814;
+  --ink-soft:  #3A3530;
+  --gold:      #C9A96E;
+  --gold-pale: #F5EFE0;
+  --parchment: #FDFAF2;
+  --page-bg:   #EDE4D0;
+  --border:    #D4C9A8;
+  --muted:     #8A7A5E;
+  --muted-lt:  #B8A88A;
+  --sage:      #7A9E7E;
+  --rose:      #C4847A;
+}
+
+@layer base {
+  body {
+    background-color: var(--page-bg);
+    font-family: 'Lora', Georgia, serif;
+    color: var(--ink);
+  }
+  h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+/* Journal card */
+.journal-card {
+  background: var(--parchment);
+  border: 1px solid var(--border);
+  box-shadow: 3px 4px 0 rgba(201,169,110,.15), 6px 10px 32px rgba(0,0,0,.08);
+  position: relative;
+}
+
+/* Spine line */
+.journal-card::before {
+  content: '';
+  position: absolute;
+  left: 44px; top: 0; bottom: 0;
+  width: 1px;
+  background: rgba(201,169,110,.22);
+  pointer-events: none;
+}
+
+/* Ruled textarea */
+.ruled-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
+  color: var(--ink);
+  line-height: 34px;
+  background:
+    repeating-linear-gradient(
+      transparent, transparent 33px,
+      rgba(212,201,168,.3) 33px, rgba(212,201,168,.3) 34px
+    );
+  padding: 4px 0 4px;
+  background-color: transparent;
+}
+
+.ruled-input::placeholder {
+  color: var(--muted-lt);
+  font-style: italic;
+}
+
+/* Gold divider */
+.gold-rule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+  font-size: 11px;
+  letter-spacing: .3em;
+}
+.gold-rule::before,
+.gold-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+
+/* Progress dots */
+.prog-track {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.prog-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: all .4s ease;
+}
+.prog-dot.done  { background: var(--gold); }
+.prog-dot.active { background: var(--ink); width: 18px; border-radius: 2px; }
+
+/* Ink button */
+.btn-ink {
+  width: 100%;
+  padding: 14px 20px;
+  background: var(--ink);
+  color: var(--parchment);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .03em;
+  transition: opacity .2s, transform .1s;
+}
+.btn-ink:active { transform: scale(.98); opacity: .9; }
+.btn-ink:disabled { opacity: .35; cursor: not-allowed; }
+
+.btn-gold {
+  width: 100%;
+  padding: 14px 20px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .03em;
+  transition: opacity .2s, transform .1s;
+}
+.btn-gold:active { transform: scale(.98); }
+
+/* Entry meta line */
+.entry-meta {
+  font-family: 'Playfair Display', serif;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.entry-meta::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, rgba(201,169,110,.4), transparent);
+}
+
+/* Chapter label */
+.chapter-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 9px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--muted-lt);
+  margin-bottom: 4px;
+}
+
+/* Mood chips — square, bookish */
+.mood-chip {
+  font-family: 'Lora', serif;
+  font-size: 11px;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  background: var(--gold-pale);
+  cursor: pointer;
+  transition: all .2s;
+  border-radius: 2px;
+}
+.mood-chip.selected {
+  background: var(--ink);
+  color: var(--parchment);
+  border-color: var(--ink);
+}
+
+/* Fade-up */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp .5s ease forwards; }
+
+/* Breathe */
+@keyframes breathe {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.14); }
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+.pulse { animation: pulse 3s ease-in-out infinite; }
+
+/* Ornament */
+.ornament {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  letter-spacing: .4em;
+  font-size: 13px;
+  margin: 14px 0;
+}
